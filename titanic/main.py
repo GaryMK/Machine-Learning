@@ -290,8 +290,8 @@ title_mapDict = {
 # map函数：对Series每个数据应用自定义的函数计算
 titleDf['Title'] = titleDf['Title'].map(title_mapDict)
 
-# 使用get_dummies进行one-hot编码
-titleDf['Title'] = titleDf['Title'].map(title_mapDict)
+# # 使用get_dummies进行one-hot编码
+# titleDf['Title'] = titleDf['Title'].map(title_mapDict)
 
 # 使用get_dummies 进行 one-hot编码
 titleDf = pd.get_dummies(titleDf['Title'])
@@ -302,6 +302,7 @@ full = pd.concat([full, titleDf], axis=1)
 
 # 删除名字这一列
 full.drop('Name', axis=1, inplace=True)
+print('删除名字这一列', full.shape)
 full.head()
 
 # 从客舱号中提取客舱类别
@@ -340,6 +341,7 @@ full = pd.concat([full, cabinDf], axis=1)
 
 # 删除客舱号这一列
 full.drop('Cabin', axis=1, inplace=True)
+print('删除客舱号这一列', full.shape)
 print(full.head())
 
 # 建立家庭人数和家庭类别
@@ -370,3 +372,156 @@ print(full.head())
 
 #到现在我们已经有了这么多个特征了
 print(full.shape)
+
+# 3.3 特征选择
+# 相关性矩阵
+corrDf = full.corr()
+print(corrDf)
+
+'''
+查看各个特征与生成情况（Survived）的相关系数，
+ascending=False表示按降序排列
+'''
+corrDf['Survived'].sort_values(ascending = False)
+
+'''
+根据各个特征与生成情况（Survived）的相关系数大小，
+我们选择了这几个特征作为模型的输入：
+头衔（前面所在的数据集titleDf）、
+客舱等级（pclassDf）、家庭大小（familyDf）、
+船票价格（Fare）、船舱号（cabinDf）、
+登船港口（embarkedDf）、性别（Sex）
+'''
+
+# 特征选择
+full_X = pd.concat( [titleDf,#头衔
+                     pclassDf,#客舱等级
+                     familyDf,#家庭大小
+                     full['Fare'],#船票价格
+                     cabinDf,#船舱号
+                     embarkedDf,#登船港口
+                     full['Sex']#性别
+                    ] , axis=1 )
+full_X.head()
+
+# 4. 构建模型
+'''
+1）坦尼克号测试数据集因为是我们最后要提交给Kaggle的，里面没有生存情况的值，所以不能用于评估模型。
+我们将Kaggle泰坦尼克号项目给我们的测试数据，叫做预测数据集（记为pred,也就是预测英文单词predict的缩写）。
+也就是我们使用机器学习模型来对其生存情况就那些预测。
+2）我们使用Kaggle泰坦尼克号项目给的训练数据集，做为我们的原始数据集（记为source），
+从这个原始数据集中拆分出训练数据集（记为train：用于模型训练）和测试数据集（记为test：用于模型评估）。
+'''
+# 原始数据集有891行
+sourceRow = 891
+'''
+sourceRow是我们在最开始合并数据前知道的，原始数据集有总共有891条数据
+从特征集合full_X中提取原始数据集提取前891行数据时，我们要减去1，因为行号是从0开始的。
+'''
+# 原始数据集：特征
+source_X = full_X.loc[0:sourceRow-1, : ]
+# 原始数据集：标签
+source_y = full.loc[0:sourceRow-1, 'Survived']
+
+# 预测数据集：特征
+pred_X = full_X.loc[sourceRow:,:]
+'''
+上面代码解释：
+891行前面的数据是测试数据集，891行之后的数据是预测数据集。[sourceRow:,:]就是从891行开始到最后一行作为预测数据集
+'''
+
+'''
+确保这里原始数据集取的是前891行的数据，不然后面模型会有错误
+'''
+# 原始数据集有多少行
+print('原始数据集行数:',source_X.shape[0])
+# 预测数据集大小
+print('预测数据行数:',pred_X.shape[0])
+
+'''
+从原始数据集（source）中拆分出训练数据集（用于模型训练train），测试数据集（用于模型评估test）
+train_test_split是交叉验证中常用的函数，功能是从样本中随机的按比例选取train data和test data
+train_data：所要划分的样本特征集
+train_target：所要划分的样本结果
+test_size：样本占比，如果是整数的话就是样本的数量
+'''
+from sklearn.model_selection import train_test_split
+
+# 建立模型用的训练数据集和测试数据集
+train_X, test_X, train_y, test_y = train_test_split(source_X ,
+                                                    source_y,
+                                                    train_size=.8)
+
+# 输出数据集大小
+print ('原始数据集特征：',source_X.shape,
+       '训练数据集特征：',train_X.shape ,
+      '测试数据集特征：',test_X.shape)
+
+print ('原始数据集标签：',source_y.shape,
+       '训练数据集标签：',train_y.shape ,
+      '测试数据集标签：',test_y.shape)
+
+# 原始数据查看
+print(source_y.head())
+
+# 4.2 选择机器学习算法
+# 选择一个机器学习算法，用于模型的训练。如果你是新手，建议从逻辑回归算法开始
+#第1步：导入算法
+from sklearn.linear_model import LogisticRegression
+#第2步：创建模型：逻辑回归（logisic regression）
+model = LogisticRegression()
+
+#随机森林Random Forests Model
+#from sklearn.ensemble import RandomForestClassifier
+#model = RandomForestClassifier(n_estimators=100)
+
+#支持向量机Support Vector Machines
+#from sklearn.svm import SVC, LinearSVC
+#model = SVC()
+
+#Gradient Boosting Classifier
+#from sklearn.ensemble import GradientBoostingClassifier
+#model = GradientBoostingClassifier()
+
+#K-nearest neighbors
+#from sklearn.neighbors import KNeighborsClassifier
+#model = KNeighborsClassifier(n_neighbors = 3)
+
+# Gaussian Naive Bayes
+#from sklearn.naive_bayes import GaussianNB
+#model = GaussianNB()
+
+# 4.3 训练模型
+# 第3步： 训练模型
+model.fit(train_X , train_y )
+
+# 评估模型
+# 分类问题，score得到的是模型的正确率
+print(model.score(test_X , test_y ))
+
+# 6.方案实施（Deployment)
+# 6.1 得到预测结果上传到Kaggle
+# 使用预测数据集到底预测结果，并保存到csv文件中，上传到Kaggle中，就可以看到排名。
+#使用机器学习模型，对预测数据集中的生存情况进行预测
+
+print('predX\n', pred_X.head())
+print('testX\n', test_X.head())
+
+pred_Y = model.predict(pred_X)
+
+'''
+生成的预测值是浮点数（0.0,1,0）
+但是Kaggle要求提交的结果是整型（0,1）
+所以要对数据类型进行转换
+'''
+pred_Y = pred_Y.astype(int)
+#乘客id
+passenger_id = full.loc[sourceRow:,'PassengerId']
+#数据框：乘客id，预测生存情况的值
+predDf = pd.DataFrame(
+    { 'PassengerId': passenger_id ,
+     'Survived': pred_Y } )
+predDf.shape
+print(predDf.head())
+#保存结果
+predDf.to_csv( 'titanic_pred.csv' , index = False )
