@@ -23,7 +23,7 @@ train = pd.read_csv("./train.csv")
 test = pd.read_csv("./test.csv")
 # 显示所有列
 pd.set_option('display.max_columns', None)
-# pd.set_option('display.max_rows', None)
+pd.set_option('display.max_rows', None)
 pd.set_option('max_colwidth', 100)
 
 # 训练数据891条
@@ -78,9 +78,9 @@ full.info()
 print('处理前：')
 full.info()
 # 年龄（Age）
-full['Age'] = full['Age'].fillna(full['Age'].mean)
+full['Age'] = full['Age'].fillna(full['Age'].mean())
 # 船票价格（Fare）
-full['Fare'] = full['Fare'].fillna(full['Fare'].mean)
+full['Fare'] = full['Fare'].fillna(full['Fare'].mean())
 print('处理好后：')
 full.info()
 
