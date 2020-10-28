@@ -169,3 +169,5 @@ Google Neural Machine Translation
 
 将VGG16猫与老虎的识别模型迁移应用于猫与老虎的体长预测
 
+## Reference
+[tensorflow2学习](http://blog.nodetopo.com/2019/12/20/morvan%e5%8d%9a%e5%ae%a2-tensorflow2%e5%ad%a6%e4%b9%a0/)
