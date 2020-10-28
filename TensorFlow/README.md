@@ -114,3 +114,58 @@ merged = tf.summary.merge_all()
 
 ### Classification 分类学习
 
+### Convolutional Neural Network(CNN)
+
+### Recurrent Neural Network(RNN)
+
+#### 应用：
+
+让RNN描述照片、写学术论文、写程序脚本或作曲
+
+#### Long Short-Term Memory(LSTM) 长短期记忆
+
+>梯度消失（梯度弥散）：
+>
+>在反向传播得到的误差的时候，在每一步都会乘以一个自己的参数，如果参数小于1，参数不断乘以误差，误差传到初始时间接近于0，对于初始时刻误差消失。
+>
+>梯度爆炸：参数大于1，不断累成，最好可能变成无穷大。
+
+控制器：输入控制、输出控制和忘记控制
+
+### 自编码(Autoencoder)
+
+非监督学习
+
+给特征属性降维，超越PCA
+
+### Batch Normalization
+
+添加在全连接和激励函数之间
+
+### api更新
+
+```python
+#增加隐藏层
+l1 = tf.layers.dense(tf_x, 10, tf.nn.relu)
+
+# 计算loss
+loss = tf.losses.mean_squared_error(tf_y, output)
+```
+
+### 可视化梯度下降/公式调参
+
+```python
+from mpl_toolkits.mplot3d import Axes3D
+
+```
+
+尝试使用不同的初始化的参数值，进行训练，总结
+
+### 迁移学习(Transfer Learning)
+
+多任务学习，强化学习中的Learning to Learn；
+
+Google Neural Machine Translation
+
+将VGG16猫与老虎的识别模型迁移应用于猫与老虎的体长预测
+
