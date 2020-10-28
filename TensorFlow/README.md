@@ -2,9 +2,11 @@
 
 ## Environment
 
-python: 3.7
+- Anaconda
 
-tensorflow-gpu: 2.3.1
+- python 3.7
+
+- tensorflow-gpu 2.3.1
 
 ## Note
 
