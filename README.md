@@ -2,7 +2,7 @@
 Welcome，
 
 Here are my Machine-Learning study notes.
-### Coursera
+### ML-Stanford
 Machine Learning, taught by *Andrew Ng*
 ### Kaggle
 A collection of Kaggle solutions.
