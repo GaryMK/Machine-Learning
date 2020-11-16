@@ -4,11 +4,10 @@ Exercises for the Stanford/Coursera Machine Learning Class
 
 ### Done
 
-- Noting
+- Linear Regression
 
 ### TODO
 
-- Linear Regression
 - Logistic Regression
 - Multi-class Classification and Neural Networks
 - Neural Network Learning
@@ -16,6 +15,7 @@ Exercises for the Stanford/Coursera Machine Learning Class
 - Support Vector Machines
 - K-Means Clustering and PCA
 - Anomaly Detection and Recommender Systems
+- Noting
 
 ### Class
 
