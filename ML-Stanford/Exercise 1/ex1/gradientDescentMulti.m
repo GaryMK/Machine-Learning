@@ -18,12 +18,9 @@ for iter = 1:num_iters
     %
 
 
-
-
-
-
-
-
+    difference  = X * theta - y;
+    summe  = difference' * X;
+    theta = theta - (alpha / m) * summe';
 
 
 

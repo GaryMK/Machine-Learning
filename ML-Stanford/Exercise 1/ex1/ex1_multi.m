@@ -87,14 +87,20 @@ num_iters = 400;
 
 % Init Theta and Run Gradient Descent 
 theta = zeros(3, 1);
-[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-
+[theta, J1_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+theta = zeros(3, 1);
+[theta, J2_history] = gradientDescentMulti(X, y, theta, 0.03, num_iters);
+theta = zeros(3, 1);
+[theta, J3_history] = gradientDescentMulti(X, y, theta, 0.1, num_iters);
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+plot(1:400, J1_history, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
-
+hold on;
+size(J1_history)
+plot(1:400, J2_history, '-r', 'LineWidth', 2);
+plot(1:400, J3_history, '-k', 'LineWidth', 2);
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
@@ -106,6 +112,8 @@ fprintf('\n');
 % not need to be normalized.
 price = 0; % You should change this
 
+prediction = [1 ((1650 - mu(:, 1)) / sigma(:, 1)) ((3 - mu(:, 2)) / sigma(:,2))];
+price = prediction * theta;
 
 % ============================================================
 
@@ -151,6 +159,7 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 price = 0; % You should change this
 
+price = [1 1650 3] * theta;
 
 % ============================================================
 
