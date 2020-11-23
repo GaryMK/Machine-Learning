@@ -34,4 +34,16 @@ print(sample_submission.head(2))
 # check the parsing of prediction strings
 max([len(ps.split(' ')) % 8 for ps in train.PredictionString.values])
 
-
+object_columns = ['sample_id', 'object_id', 'center_x', 'center_y', 'center_z',
+                  'width', 'length', 'height', 'yaw', 'class_name']
+objects = []
+for sample_id, ps in tqdm(train.values[:]) :
+    object_params = ps.split()
+    n_objects = len(object_params)
+    for i in range(n_objects // 8):
+        x,y,z,w,l,h,yaw, c = tuple(object_params[i * 8: (i + 1) * 8])
+        objects.append([sample_id, i, x, y, z, w, l, h, yaw, c])
+    train_objects = pd.DataFrame(
+        objects,
+        columns= object_columns
+    )
