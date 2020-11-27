@@ -17,7 +17,7 @@
 %
 
 %% Initialization
-clear ; close all; clc
+clear ; close all; clc  %清除变量，关闭图表，清屏
 
 %% Load Data
 %  The first two columns contains the exam scores and the third column
