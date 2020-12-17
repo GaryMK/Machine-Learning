@@ -63,13 +63,41 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+a1 = [ones(m, 1) X];
+z2 = a1 * Theta1';
+a2 = [ones(m,1) sigmoid(z2)];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3');
+h = a3;
+ylable = zeros(num_labels, m);
+
+# Method 1
+for i = 1 : m
+    ylable(y(i), i) = 1;
+end
+# Method 2
+# u = eye(num_labels);
+# y = u(y, :);
+
+J = (1 / m) * sum(sum(-ylable .* log(h) - (1 - ylable) .* log(1 - h)));
+
+# Regularized Cost Function
+regularization = (lambda / (2 * m)) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
+J += regularization;
 
 
+# Neural Network Gradient
+delta_3 = a3 - ylable;
+delta_2 = (Theta2' * delta_3)'(:, 2:end) .* sigmoidGradient(z2);
 
-
-
-
-
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
+Delta1 = Delta1 + delta_2' * a1;
+Delta2 = Delta2 + delta_3 * a2;
+Theta1_grad = 1 / m * Delta1 + lambda / m * Theta1;
+Theta2_grad = 1 / m * Delta2 + lambda / m * Theta2;
+Theta1_grad(:,1) = 1 / m * Delta1(:, 1);
+Theta2_grad(:,1) = 1 / m * Delta2(:, 1);
 
 
 
