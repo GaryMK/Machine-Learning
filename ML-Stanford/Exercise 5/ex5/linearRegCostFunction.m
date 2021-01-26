@@ -20,13 +20,13 @@ grad = zeros(size(theta));
 %
 
 
+% thetaNoZero = [0; theta(2:end)];
+h = X * theta;
+J = (1 / (2 * m)) * ((h - y)' * (h - y)) + (lambda / (2 * m)) * (theta(2 : end)' * theta(2 : end));
 
 
-
-
-
-
-
+% theta(2 : end) 考虑多个theta的情况
+grad = (1 / m) * ((h - y)' * X) + (lambda / m) * [0; theta(2 : end)]';
 
 
 
