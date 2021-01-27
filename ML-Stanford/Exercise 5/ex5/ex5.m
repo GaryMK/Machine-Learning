@@ -218,3 +218,15 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%% Optional
+%% ===== Comuting test set error ========== 
+fprintf('Comuting test set error\n')
+% 取出之前求过的使error_val最小的lambda
+[min, lambda_min]=min(error_val);
+lambda = lambda_vec(lambda_min);
+theta = trainLinearReg(X_poly, y, lambda);
+[J, grad] = linearRegCostFunction(X_poly_test, ytest, theta, 0);
+fprintf('Cost J is %f\n', J);
+
+%% ===== Plotting learning curves with randomly selected examples ========== 
