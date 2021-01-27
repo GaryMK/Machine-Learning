@@ -65,6 +65,7 @@ while ~isempty(email_contents)
     str = regexprep(str, '[^a-zA-Z0-9]', '');
 
     % Stem the word 
+    % TODO:
     % (the porterStemmer sometimes has issues, so we use a try catch block)
     try str = porterStemmer(strtrim(str)); 
     catch str = ''; continue;
@@ -98,10 +99,13 @@ while ~isempty(email_contents)
     %
 
 
-
-
-
-
+    % Note: vocabList{i}
+    for i = 1 : length(vocabList)
+        if (strcmp(str, vocabList{i}))
+            word_indices = [word_indices; i];
+            break;
+        end
+    end
 
 
 
