@@ -7,7 +7,7 @@
 % The above steps should then be repeated multiple times (say 50) and the averaged 
 % error should be used to determine the training error a
 % for i examples.
-
+% 随机选择是避免训练集都是小的值而验证集都是大值? 是避免全是小的样本或全是大的样本？
 
 % SETUP
 
