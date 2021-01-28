@@ -10,11 +10,11 @@ Exercises for the Stanford/Coursera Machine Learning Class
 - Neural Network Learning
 - Regularized Linear Regression and Bias/Variance
 - Support Vector Machines
+- K-Means Clustering and PCA
+- Anomaly Detection and Recommender Systems
 
 ### TODO
 
-- K-Means Clustering and PCA
-- Anomaly Detection and Recommender Systems
 - Noting
 
 ### Class
