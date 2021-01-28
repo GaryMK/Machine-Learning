@@ -28,8 +28,15 @@ centroids = zeros(K, n);
 
 
 
-
-
+for i = 1 : K 
+    total = [];
+    for j = 1 : m 
+        if (idx(j) == i)
+            total = [total; X(j, :)];
+        end
+    end
+    centroids(i, :) = mean(total);
+end
 
 
 

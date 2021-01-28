@@ -22,9 +22,16 @@ idx = zeros(size(X,1), 1);
 %
 
 
-
-
-
+for i = 1 : size(X, 1)
+    minDist = inf;
+    for j = 1 : K
+        currentDist = (X(i, :) - centroids(j, :)) * (X(i, :) - centroids(j, :))';
+        if (currentDist < minDist)
+            minDist = currentDist;
+            idx(i) = j;
+        end
+    end
+end
 
 
 % =============================================================
