@@ -41,18 +41,10 @@ Theta_grad = zeros(size(Theta));
 %
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+predictions = (X * Theta') .* R;
+J = (1 / 2) * sum(sum((predictions - Y) .^ 2)) + ((lambda / 2) * sum(Theta(:) .^ 2)) + ((lambda / 2) * sum(X(:) .^ 2));
+X_grad = (predictions - Y) * Theta .+ (lambda .* X);
+Theta_grad = (predictions - Y)' *X .+ (lambda .* Theta);
 
 
 % =============================================================
